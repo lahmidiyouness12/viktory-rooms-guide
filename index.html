@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Viktory Rooms – Guest Guide</title>
+<style>
+:root{--bg:#f6f6f3;--card:#fff;--text:#171717;--muted:#686868;--line:#e7e7e2;--accent:#111}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+.wrap{max-width:760px;margin:auto;padding:18px 16px 50px}.hero{padding:18px 4px 12px}.brand{font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#777}.hero h1{font-size:34px;line-height:1.05;margin:8px 0}.hero p{margin:0;color:var(--muted);font-size:15px}
+.lang{display:flex;gap:8px;overflow:auto;padding:14px 0 18px;position:sticky;top:0;background:linear-gradient(var(--bg) 80%,transparent);z-index:5}
+.lang button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:9px 13px;font-weight:700;white-space:nowrap}.lang button.active{background:#111;color:#fff;border-color:#111}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.tile{border:1px solid var(--line);background:var(--card);border-radius:18px;padding:16px 10px;min-height:108px;text-align:center;font-size:13px;font-weight:700}.ico{font-size:28px;display:block;margin-bottom:9px}
+.section{display:none;margin-top:18px}.section.show{display:block}.section h2{font-size:25px;margin:0 0 12px}.box{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:17px;margin:10px 0}.box h3{margin:0 0 8px;font-size:17px}.box p,.box li{font-size:15px;line-height:1.55}.box ul,.box ol{padding-left:21px}.code{display:inline-block;background:#f0f0ec;border-radius:10px;padding:5px 9px;font-weight:800;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.video{position:relative;width:100%;aspect-ratio:9/16;background:#000;border-radius:18px;overflow:hidden;margin:10px 0}.video iframe{width:100%;height:100%;border:0}.map{width:100%;height:240px;border:0;border-radius:16px;margin-top:8px}.back{margin-top:18px;border:0;background:#111;color:#fff;border-radius:12px;padding:11px 15px;font-weight:700}.note{border-left:4px solid #111;padding-left:12px}.links a{display:block;color:inherit;text-decoration:none;border:1px solid var(--line);border-radius:12px;padding:11px 12px;margin:7px 0;background:#fafaf8}.contact{font-size:18px;font-weight:800}.small{font-size:13px;color:var(--muted)}
+@media(min-width:600px){.grid{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+<div class="brand">Viktory Rooms</div>
+<h1 id="title">Guest Guide</h1>
+<p id="subtitle">Everything you need for your stay in Bolzano.</p>
+</header>
+
+<nav class="lang" aria-label="Languages">
+<button data-lang="it" class="active">Italiano</button><button data-lang="en">English</button><button data-lang="de">Deutsch</button><button data-lang="fr">Français</button><button data-lang="es">Español</button>
+</nav>
+
+<div class="grid" id="menu"></div>
+<div id="content"></div>
+</div>
+
+<script>
+const R={
+"1":{box:"1",boxCode:"2106",room:"1",roomCode:"1312#"},
+"2":{box:"2",boxCode:"2026",room:"2",roomCode:"0306#"},
+"3":{box:"3",boxCode:"2000",room:"3",roomCode:"05039#"}
+};
+const room=R[new URLSearchParams(location.search).get("room")]||R["3"];
+
+const T={
+it:{
+title:"Guida Ospiti",sub:"Tutto quello che ti serve per il tuo soggiorno a Bolzano.",
+menu:[["🔑","Check-in"],["📶","Wi-Fi"],["🚗","Parcheggio"],["🚭","No smoking"],["🧳","Check-out"],["📍","Posizione"],["🏠","Regole"],["🍽️","Dove mangiare"],["☕","Colazione & caffè"],["🏛️","Cosa vedere"],["🛍️","Shopping"],["🍣","Sushi"],["🍸","Bar"],["🏔️","Montagna & laghi"],["🚶","Passeggiate"],["🚌","Trasporti"],["🛒","Supermercati"],["💊","Farmacia"],["♨️","Terme"],["☎️","Contatti"]],
+checkin:`<div class="video"><iframe src="https://www.youtube.com/embed/UJbfjMdDUc8?rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+<div class="box"><h3>1. Trova il tuo box</h3><p>Per la <b>stanza ${room.room}</b>, usa il <b>Box n. ${room.box}</b>.</p><p>Codice del box: <span class="code">${room.boxCode}</span></p></div>
+<div class="box"><h3>2. Apri il box</h3><ol><li>Inserisci il codice.</li><li>Abbassa la levetta nera.</li><li>Prendi la chiave.</li><li>Richiudi bene il box.</li></ol></div>
+<div class="box"><h3>3. Vai alla stanza</h3><p>Segui il video e sali al piano dell'appartamento.</p><p>La <b>stanza ${room.room}</b> si apre con la tessera mostrata nel video oppure con la serratura elettronica.</p><p>Codice porta: <span class="code">${room.roomCode}</span></p></div>`,
+wifi:`<div class="box"><h3>Wi-Fi</h3><p><b>Nome:</b> <span class="code">Tim FWA-K9SW</span></p><p><b>Password:</b> <span class="code">ViktoryRooms2609</span></p></div>`,
+parking:`<div class="box"><h3>⚠️ Non parcheggiare nel cancello</h3><p>È vietato parcheggiare all'interno del cancello del condominio. È un'area privata riservata ai residenti. I veicoli non autorizzati possono essere rimossi. Non siamo responsabili di multe o rimozioni.</p></div><div class="box"><h3>Parcheggio vicino</h3><p>Puoi usare l'area di parcheggio pubblica a circa 50 m.</p><p><b>€1,50/ora</b> dalle 08:00 alle 19:00. Fuori da questi orari e la domenica è gratuito.</p><p><a href="https://share.google/3HyQAMPuHGlKmm3JQ" target="_blank">📍 Apri mappa parcheggio</a></p></div><div class="box"><h3>Mercato del sabato</h3><p>Ogni sabato c'è il mercato settimanale. Non lasciare l'auto nelle vie del mercato dal venerdì sera fino a circa le 15:00 di sabato: potrebbe essere rimossa.</p><p><a href="https://maps.apple/p/q7GGpKSUpnn9xv" target="_blank">📍 Parcheggio consigliato per sabato</a></p></div>`,
+smoking:`<div class="box"><h3>🚭 Vietato fumare</h3><p>Non è consentito fumare all'interno della struttura o nelle camere.</p><p><b>Penale: €100.</b></p></div>`,
+checkout:`<div class="box"><h3>Check-out entro le 10:00</h3><ol><li>Lascia la stanza entro le <b>10:00</b>.</li><li>Rimetti la chiave nello stesso box.</li><li>Chiudi bene il box.</li><li>Spegni tutte le luci.</li><li>Spegni aria condizionata/climatizzazione.</li></ol></div><div class="box"><h3>Tassa di soggiorno</h3><p><b>€2,40 a persona al giorno.</b></p><p>Lascia i contanti sul comodino e inviaci una foto su WhatsApp.</p></div>`,
+location:`<div class="box"><h3>📍 Indirizzo</h3><p class="contact">Piazza della Vittoria 25<br>39100 Bolzano, Italia</p><p><a href="https://maps.google.com/?q=Piazza+della+Vittoria+25,+Bolzano" target="_blank">Apri in Google Maps →</a></p></div>`,
+rules:`<div class="box"><h3>Regole principali</h3><ul><li>Silenzio: <b>22:00–08:00</b>.</li><li>Non fumare nelle camere o nella struttura.</li><li>Non parcheggiare nel cancello privato.</li><li>Rispetta vicini e spazi comuni.</li></ul></div>`,
+food:`<div class="box"><h3>🍽️ Altoatesino</h3><ul><li>Batzenhäusl</li><li>Franziskanerstuben</li><li>Wirthaus Vögele</li><li>Försterbräu</li></ul></div><div class="box"><h3>🍕 Pizza</h3><ul><li>Il Corso</li><li>Pizzium</li><li>Pizzeria Primo Passo</li><li>Pizzeria Piccerella</li></ul></div>`,
+breakfast:`<div class="box"><h3>☕ Colazione e panifici</h3><ul><li>Bar Ciak</li><li>Bar Tivoli</li><li>Panificio Franziskaner</li></ul></div>`,
+sights:`<div class="box"><h3>🏛️ Da vedere</h3><ul><li>Museo Archeologico dell'Alto Adige (Ötzi)</li><li>Piazza Walther</li><li>Duomo di Bolzano</li><li>Portici e centro storico</li><li>Castel Roncolo</li><li>Funivia del Renon</li></ul></div>`,
+shopping:`<div class="box"><h3>🛍️ Shopping</h3><ul><li>Portici</li><li>Waltherpark</li><li>Twenty</li></ul></div>`,
+sushi:`<div class="box"><h3>🍣 Sushi</h3><ul><li>Insushi</li></ul></div>`,
+bars:`<div class="box"><h3>🍸 Bar e serate</h3><ul><li>Fantasy Lounge</li><li>Bar Thaler</li><li>La Cave – shisha e drink</li></ul></div>`,
+mountains:`<div class="box"><h3>🏔️ Montagna e laghi</h3><ul><li>Renon / Corno del Renon</li><li>Alpe di Siusi</li><li>Val Gardena / Seceda</li><li>Lago di Carezza</li><li>Lago di Monticolo</li><li>Lago di Caldaro</li><li>Lago di Braies – per una gita più lunga</li></ul></div>`,
+walks:`<div class="box"><h3>🚶 Passeggiate</h3><ul><li>Lungotalvera</li><li>Aree verdi lungo il Talvera</li><li>Campi e aree sportive</li><li>Parchi per bambini</li></ul></div>`,
+transport:`<div class="box"><h3>🚌 Trasporti pubblici</h3><p>Per orari e biglietti usa l'app <b>AltoAdige Mobilità</b>.</p></div>`,
+supermarkets:`<div class="box"><h3>🛒 Supermercati</h3><ul><li>Despar</li><li>ALDI</li><li>Conad City</li></ul></div>`,
+pharmacy:`<div class="box"><h3>💊 Farmacia</h3><p>Per una farmacia vicina, cerca “farmacia” sulla mappa del telefono.</p></div>`,
+thermal:`<div class="box"><h3>♨️ Terme</h3><ul><li>Terme Merano</li><li>QC Terme Dolomiti</li></ul></div>`,
+contact:`<div class="box"><h3>☎️ Contatti</h3><p><b>WhatsApp:</b> <a href="https://wa.me/41783008911" target="_blank">+41 78 300 89 11</a></p><p><b>Emergenze estreme:</b> +39 388 4224442</p><p class="small">Per urgenze mediche o di sicurezza, chiama anche il numero di emergenza locale 112.</p></div>`
+},
+en:{title:"Guest Guide",sub:"Everything you need for your stay in Bolzano."},
+de:{title:"Gäste-Guide",sub:"Alles, was du für deinen Aufenthalt in Bozen brauchst."},
+fr:{title:"Guide des voyageurs",sub:"Tout ce dont vous avez besoin pour votre séjour à Bolzano."},
+es:{title:"Guía de huéspedes",sub:"Todo lo que necesitas para tu estancia en Bolzano."}
+};
+
+const labels={
+en:["Check-in","Wi-Fi","Parking","No smoking","Check-out","Location","House rules","Where to eat","Breakfast & coffee","Things to see","Shopping","Sushi","Bars","Mountains & lakes","Walks","Transport","Supermarkets","Pharmacy","Thermal baths","Contact"],
+de:["Check-in","WLAN","Parken","Rauchen verboten","Check-out","Lage","Hausregeln","Essen","Frühstück & Kaffee","Sehenswürdigkeiten","Shopping","Sushi","Bars","Berge & Seen","Spaziergänge","Transport","Supermärkte","Apotheke","Thermen","Kontakt"],
+fr:["Arrivée","Wi-Fi","Parking","Non-fumeur","Départ","Emplacement","Règles","Restaurants","Petit-déjeuner & café","À voir","Shopping","Sushi","Bars","Montagnes & lacs","Promenades","Transports","Supermarchés","Pharmacie","Thermes","Contact"],
+es:["Check-in","Wi-Fi","Aparcamiento","No fumar","Check-out","Ubicación","Normas","Dónde comer","Desayuno y café","Qué ver","Compras","Sushi","Bares","Montañas y lagos","Paseos","Transporte","Supermercados","Farmacia","Termas","Contacto"]
+};
+const keys=["checkin","wifi","parking","smoking","checkout","location","rules","food","breakfast","sights","shopping","sushi","bars","mountains","walks","transport","supermarkets","pharmacy","thermal","contact"];
+
+function getLang(){return localStorage.getItem("lang")||"it"}
+function render(lang){
+  document.documentElement.lang=lang;
+  const base=T.it;
+  document.getElementById("title").textContent=T[lang].title||base.title;
+  document.getElementById("subtitle").textContent=T[lang].sub||base.sub;
+  const names=lang==="it"?base.menu.map(x=>x[1]):labels[lang];
+  const menu=document.getElementById("menu");
+  menu.innerHTML=base.menu.map((x,i)=>`<button class="tile" data-key="${keys[i]}"><span class="ico">${x[0]}</span>${names[i]}</button>`).join("");
+  document.querySelectorAll(".lang button").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang));
+  document.getElementById("content").innerHTML=keys.map(k=>`<section class="section" id="s-${k}">${base[k]}</section>`).join("");
+  document.querySelectorAll(".tile").forEach(b=>b.onclick=()=>show(b.dataset.key));
+}
+function show(key){
+ document.querySelectorAll(".section").forEach(s=>s.classList.remove("show"));
+ const s=document.getElementById("s-"+key); if(s){s.classList.add("show");s.scrollIntoView({behavior:"smooth",block:"start"})}
+}
+document.querySelectorAll(".lang button").forEach(b=>b.onclick=()=>{localStorage.setItem("lang",b.dataset.lang);render(b.dataset.lang)});
+render(getLang());
+</script>
+</body>
+</html>
