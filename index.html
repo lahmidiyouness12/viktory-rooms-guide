@@ -92,7 +92,7 @@ function render(lang){
   const menu=document.getElementById("menu");
   menu.innerHTML=base.menu.map((x,i)=>`<button class="tile" data-key="${keys[i]}"><span class="ico">${x[0]}</span>${names[i]}</button>`).join("");
   document.querySelectorAll(".lang button").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang));
-  document.getElementById("content").innerHTML=keys.map(k=>`<section class="section" id="s-${k}">${(CONTENT[lang]&&CONTENT[lang][k])||base[k]}</section>`).join("");
+  document.getElementById("content").innerHTML=keys.map(k=>{let html=(CONTENT[lang]&&CONTENT[lang][k])||base[k];html=html.replaceAll("${room.room}",room.room).replaceAll("${room.box}",room.box).replaceAll("${room.boxCode}",room.boxCode).replaceAll("${room.roomCode}",room.roomCode);return `<section class="section" id="s-${k}">${html}</section>`}).join("");
   document.querySelectorAll(".tile").forEach(b=>b.onclick=()=>show(b.dataset.key));
 }
 function show(key){
